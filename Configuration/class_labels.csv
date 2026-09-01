@@ -1,0 +1,67 @@
+class_id,class_name,display_name,description
+1,sign_1,U-turn,U-turn guide sign
+2,sign_2,Keep Right,Keep right mandatory sign
+3,sign_3,Keep Left,Keep left mandatory sign
+4,sign_4,Pass Either Side,Pass either side mandatory sign
+5,sign_5,Motorcycle Track,Compulsory motorcycle track
+6,sign_6,Stop,Stop sign
+7,sign_7,No Left Turn,No left turn
+8,sign_8,No Right Turn,No right turn
+9,sign_9,No U-turn,No U-turn
+10,sign_10,No Entry,No entry
+11,sign_11,Weight Limit 5T,No vehicles exceeding 5 tonnes
+12,sign_12,Weight Limit 30T,No vehicles exceeding 30 tonnes
+13,sign_13,Height Limit 2 m,Height limit sign
+14,sign_14,Height Limit 3 m,Height limit sign
+15,sign_15,Height Limit 4 m,Height limit sign
+16,sign_16,Height Limit 5 m,Height limit sign
+17,sign_17,Height Limit 6 m,Height limit sign
+18,sign_18,Speed Limit 20 km/h,Maximum speed 20 km/h
+19,sign_19,Speed Limit 30 km/h,Maximum speed 30 km/h
+20,sign_20,Speed Limit 40 km/h,Maximum speed 40 km/h
+21,sign_21,Speed Limit 50 km/h,Maximum speed 50 km/h
+22,sign_22,Speed Limit 60 km/h,Maximum speed 60 km/h
+23,sign_23,Speed Limit 70 km/h,Maximum speed 70 km/h
+24,sign_24,Speed Limit 80 km/h,Maximum speed 80 km/h
+25,sign_25,Speed Limit 90 km/h,Maximum speed 90 km/h
+26,sign_26,Speed Limit 110 km/h,Maximum speed 110 km/h
+27,sign_27,No Entry For Heavy Vehicles,No entry for vehicles exceeding limit or trucks
+28,sign_28,Heavy Vehicles Keep Left,Heavy vehicles no driving on right lane
+29,sign_29,No Parking,No parking
+30,sign_30,No Stopping,No stopping
+31,sign_31,Give Way,Give way
+32,sign_32,Width Limit 3.5 m,Width limit sign
+33,sign_33,No Overtaking,No overtaking
+34,sign_34,Road Work,Road work temporary sign
+35,sign_35,Camera Operation Zone,Camera operation zone warning
+36,sign_36,Crosswind Area,Crosswind area warning
+37,sign_37,Caution! Hump,Hump warning sign
+38,sign_38,Hump Ahead,Hump ahead warning sign
+39,sign_39,Towing Zone,Towing zone warning sign
+40,sign_40,Left Bend,Left bend warning sign
+41,sign_41,Slippery Road,Slippery road warning sign
+42,sign_42,Pedestrian Crossing Option 1,Pedestrian crossing warning sign
+43,sign_43,Pedestrian Crossing Option 2,Pedestrian crossing warning sign
+44,sign_44,School Children Crossing Option 1,School children crossing warning sign
+45,sign_45,School Children Crossing Option 2,School children crossing warning sign
+46,sign_46,Caution,General caution warning sign
+47,sign_47,Narrow Roads On The Left,Narrow road on the left warning sign
+48,sign_48,Traffic Lights Ahead,Traffic lights ahead warning sign
+49,sign_49,Obstacles Ahead,Obstacle ahead warning sign
+50,sign_50,Staggered Junctions,Staggered junction warning sign
+51,sign_51,Crossroads T-Junction,T-junction ahead warning sign
+52,sign_52,Crossroads To The Right,Crossroad from right warning sign
+53,sign_53,Crossroads To The Left,Crossroad from left warning sign
+54,sign_54,Exit To The Left,Exit to the left warning sign
+55,sign_55,Crossroads,Crossroads ahead warning sign
+56,sign_56,Minor Road On Right,Minor road joining from right warning sign
+57,sign_57,Minor Road On Left,Minor road joining from left warning sign
+58,sign_58,Minor Road On Left Option 2,Alternative minor road on left warning sign
+59,sign_59,Cattle Crossing,Cattle crossing warning sign
+60,sign_60,Roundabout Ahead,Roundabout ahead warning sign
+61,sign_61,Narrow Bridge,Narrow bridge warning sign
+62,sign_62,Split Way,Split way warning sign
+63,sign_63,Two Way Road,Two-way traffic warning sign
+64,sign_64,Divided Road Ending,Divided road ending warning sign
+65,sign_65,Curve On The Left,Left curve warning sign
+66,sign_66,Crossroads Y-Junction,Y-junction warning sign

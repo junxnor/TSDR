@@ -1,0 +1,4 @@
+Application/instance/
+*.cache
+__pycache__/
+.pytest_cache/

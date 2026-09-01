@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#282834" />
+    <title>TSDR System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='site.css') }}"
+    />
+  </head>
+  <body data-page="{{ page_name }}">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="nav-wrap">
+      <nav class="nav-pill" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="TSDR System home"
+          ><img class="brand-logo" src="/logo-image" alt="" /><span
+            >TSDR System</span
+          ></a
+        >
+        <button
+          class="menu-button"
+          id="menuButton"
+          aria-expanded="false"
+          aria-controls="navLinks"
+        >
+          Menu
+        </button>
+        <div class="nav-links" id="navLinks">
+          <a data-nav="home" href="/">Home</a>
+          <a data-nav="detect" href="/detect">Detect</a>
+          <a data-nav="live" href="/live">Live</a>
+          <a data-nav="records" href="/records-page">Records</a>
+          <a data-nav="about" href="/about">About</a>
+        </div>
+        <a class="nav-cta" href="/detect"
+          >Try detector <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+    </header>
+
+    <main id="main">
+      {% if page_name == 'home' %}
+      <section class="hero">
+        <div class="hero-card">
+          <span class="eyebrow light">Malaysian road intelligence</span>
+          <h1>See the signs.<br />Understand the road.</h1>
+          <p>
+            Traffic sign detection and recognition designed for Malaysian roads,
+            from a still image to a live camera stream.
+          </p>
+          <div class="hero-actions">
+            <a class="button light-button" href="/detect">Test an image →</a
+            ><a class="text-link light" href="/about">How it works</a>
+          </div>
+        </div>
+        <p class="hero-credit">
+          OpenCV enhancement + YOLO detection + YOLO classification
+        </p>
+      </section>
+      <section class="editorial section-shell">
+        <span class="eyebrow">The system</span>
+        <h2>
+          One clear view from road image to
+          <a href="/records-page">useful road context</a>.
+        </h2>
+        <div class="process-layout">
+          <div class="sidebar-copy">
+            <strong>Hybrid intelligence</strong>
+            <p>
+              OpenCV improves the frame first. A YOLO detector locates likely
+              signs, then a YOLO classification model identifies only the
+              isolated sign crop, with face and geometry guards before a result
+              is accepted.
+            </p>
+          </div>
+          <div class="diagram-card" aria-label="Detection workflow">
+            <div>
+              <span>01</span><strong>Capture</strong
+              ><small>Upload or camera frame</small>
+            </div>
+            <i>→</i>
+            <div>
+              <span>02</span><strong>Enhance</strong
+              ><small>CLAHE / gamma</small>
+            </div>
+            <i>→</i>
+            <div>
+              <span>03</span><strong>Detect</strong
+              ><small>YOLO sign region</small>
+            </div>
+            <i>→</i>
+            <div>
+              <span>04</span><strong>Recognise</strong
+              ><small>YOLO classification label</small>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="safety-band">
+        <div>
+          <span class="eyebrow light">Built for attention</span>
+          <h2>A visual aid, never a substitute for the driver.</h2>
+        </div>
+        <p>
+          Mount the phone securely, set up the camera before moving, and rely on
+          official road signs and traffic laws. This research prototype is not a
+          certified navigation or safety system.
+        </p>
+      </section>
+      {% elif page_name == 'detect' %}
+      <section class="tool-page section-shell">
+        <div class="page-heading">
+          <span class="eyebrow">Image detection</span>
+          <h1>Turn a road image into <em>readable signs.</em></h1>
+          <p>
+            Upload a clear Malaysian road image. The model will locate, classify
+            and annotate accepted traffic signs.
+          </p>
+        </div>
+        <div class="tool-layout">
+          <aside class="control-card">
+            <form id="uploadForm">
+              <label class="dropzone" for="image"
+                ><span class="upload-icon">↑</span
+                ><strong>Choose a road image</strong
+                ><small>JPG, PNG or WebP</small
+                ><input
+                  id="image"
+                  name="image"
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  required
+              /></label>
+              <label for="preset">Detection profile</label
+              ><select id="preset">
+                <option value="0.70">Driving mode (0.70)</option>
+                <option value="0.50">Balanced demo (0.50)</option>
+                <option value="0.35">Find more signs (0.35)</option>
+                <option value="0.80">Very strict (0.80)</option>
+              </select>
+              <details>
+                <summary>Advanced thresholds</summary>
+                <div class="input-pair">
+                  <label
+                    >Detection<input
+                      id="conf"
+                      name="conf"
+                      type="number"
+                      min="0.05"
+                      max="0.95"
+                      step="0.05"
+                      value="0.70" /></label
+                  ><label
+                    >Recognition<input
+                      id="minClsConf"
+                      name="min_cls_conf"
+                      type="number"
+                      min="0"
+                      max="0.95"
+                      step="0.05"
+                      value="0.50"
+                  /></label>
+                </div>
+              </details>
+              <button class="button primary" id="uploadButton" type="submit">
+                Analyse image →
+              </button>
+            </form>
+            <div id="uploadProgress" class="upload-progress" hidden>
+              <span></span>
+              <small>Analysing image...</small>
+            </div>
+            <p class="helper">
+              OpenCV enhancement is fixed to CLAHE + Gamma correction, then
+              face/profile checks, geometry filters and confidence thresholds
+              are applied before a result is accepted.
+            </p>
+          </aside>
+          <section class="result-card" aria-live="polite">
+            <div id="empty" class="empty-state">
+              <span class="focus-frame"></span>
+              <h2>Your result appears here</h2>
+              <p>Choose a road image to begin.</p>
+            </div>
+            <img
+              id="resultImage"
+              class="result-image"
+              hidden
+              role="button"
+              tabindex="0"
+              title="Click to zoom"
+              alt="Annotated traffic sign result"
+            />
+            <div id="resultList" class="result-list"></div>
+          </section>
+        </div>
+      </section>
+      {% elif page_name == 'live' %}
+      <section class="tool-page section-shell">
+        <div class="page-heading">
+          <span class="eyebrow">Live recognition</span>
+          <h1>A calmer view of the <em>road ahead.</em></h1>
+          <p>
+            Start the connected server camera to identify signs frame by frame.
+          </p>
+        </div>
+        <div class="live-layout">
+          <section class="camera-card">
+            <div class="camera-stage">
+              <video id="liveVideo" hidden playsinline muted></video
+              ><img
+                id="liveResult"
+                hidden
+                alt="Latest annotated camera frame"
+              /><canvas id="captureCanvas" hidden></canvas>
+              <div id="cameraPlaceholder">
+                <span class="focus-frame"></span>
+                <p>Camera is off</p>
+              </div>
+              <div class="live-badge" id="liveBadge">● Offline</div>
+            </div>
+            <div id="liveDetectionList" class="result-list"></div>
+          </section>
+          <aside class="control-card">
+            <h2>Camera controls</h2>
+            <div class="input-pair">
+              <label
+                >Detection<input
+                  id="cameraConf"
+                  type="number"
+                  min="0.05"
+                  max="0.95"
+                  step="0.05"
+                  value="0.70" /></label
+              ><label
+                >Recognition<input
+                  id="cameraMinClsConf"
+                  type="number"
+                  min="0"
+                  max="0.95"
+                  step="0.05"
+                  value="0.50"
+              /></label>
+            </div>
+            <button class="button primary" id="startLive">
+              Start rear camera →</button
+            ><button class="button secondary" id="stopLive">Stop camera</button>
+            <label class="voice-control">
+              <input id="voiceAlerts" type="checkbox" checked />
+              Speak accepted traffic-sign alerts
+            </label>
+            <p class="helper" id="cameraMessage">
+              OpenCV enhancement is fixed to CLAHE + Gamma correction. On
+              phone camera access requires HTTPS. A local HTTP IP address
+              cannot request camera permission.
+            </p>
+            <div class="safety-note">
+              <strong>Before you drive</strong>
+              <p>
+                Secure the device and start the stream while parked. Do not
+                interact with the screen while moving.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+      {% elif page_name == 'records' %}
+      <section class="tool-page section-shell records-page">
+        <div class="page-heading records-heading">
+          <div>
+            <span class="eyebrow">Detection history</span>
+            <h1>Your recent <em>road observations.</em></h1>
+          </div>
+          <button class="button secondary compact" id="refreshRecords">
+            Refresh records
+          </button>
+        </div>
+        <div class="record-tabs">
+          <button class="active" data-record="upload">Image uploads</button
+          ><button data-record="live">Live camera</button>
+        </div>
+        <section class="records-card">
+          <div class="record-summary">
+            <span id="recordCount">— detections</span><span>Newest first</span>
+          </div>
+          <div id="recordList" class="mobile-records"></div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Frame</th>
+                  <th>Date & time</th>
+                  <th>Predicted sign</th>
+                  <th>Review</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id="recordTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      {% elif page_name == 'performance' %}
+      <section class="tool-page section-shell performance-page">
+        <div class="page-heading performance-heading">
+          <span class="eyebrow">Evaluation dashboard</span>
+          <h1>Model <em>performance.</em></h1>
+          <p>
+            A compact view of the best validation results recorded during
+            training for the traffic-sign detector and recognizer.
+          </p>
+        </div>
+
+        <section class="performance-section">
+          <div class="performance-title">
+            <div>
+              <span class="eyebrow">Stage 01</span>
+              <h2>Traffic-sign detector</h2>
+            </div>
+            <span class="model-chip">YOLO26n detection</span>
+          </div>
+          <div class="metric-grid">
+            {% for label, value, help_text in [
+              ('Precision', model_performance.detector.precision, 'How many predicted boxes were correct'),
+              ('Recall', model_performance.detector.recall, 'How many ground-truth signs were found'),
+              ('mAP@50', model_performance.detector.map50, 'Mean average precision at IoU 0.50'),
+              ('mAP@50–95', model_performance.detector.map50_95, 'Stricter average across IoU thresholds')
+            ] %}
+            <article class="metric-card">
+              <span>{{ label }}</span>
+              <strong>{{ '%.2f'|format(value) }}%</strong>
+              <div class="metric-track" aria-hidden="true">
+                <i style="width: {{ value }}%"></i>
+              </div>
+              <small>{{ help_text }}</small>
+            </article>
+            {% endfor %}
+          </div>
+          <div class="training-facts">
+            <span><strong>{{ model_performance.detector.best_epoch }}</strong> best epoch</span>
+            <span><strong>{{ model_performance.detector.train_images }}</strong> training images</span>
+            <span><strong>{{ model_performance.detector.val_images }}</strong> validation images</span>
+            <span><strong>{{ model_performance.detector.test_images }}</strong> test images</span>
+          </div>
+        </section>
+
+        <section class="performance-section">
+          <div class="performance-title">
+            <div>
+              <span class="eyebrow">Stage 02</span>
+              <h2>Traffic-sign recognizer</h2>
+            </div>
+            <span class="model-chip">YOLO26n classification</span>
+          </div>
+          <div class="metric-grid recognizer-metrics">
+            {% for label, value, help_text in [
+              ('Top-1 accuracy', model_performance.recognizer.top1, 'Correct class was the first prediction'),
+              ('Top-5 accuracy', model_performance.recognizer.top5, 'Correct class appeared in the five best predictions')
+            ] %}
+            <article class="metric-card">
+              <span>{{ label }}</span>
+              <strong>{{ '%.2f'|format(value) }}%</strong>
+              <div class="metric-track" aria-hidden="true">
+                <i style="width: {{ value }}%"></i>
+              </div>
+              <small>{{ help_text }}</small>
+            </article>
+            {% endfor %}
+          </div>
+          <div class="training-facts">
+            <span><strong>{{ model_performance.recognizer.best_epoch }}</strong> best epoch</span>
+            <span><strong>{{ model_performance.recognizer.classes }}</strong> sign classes</span>
+            <span><strong>{{ model_performance.recognizer.train_images }}</strong> training crops</span>
+            <span><strong>{{ model_performance.recognizer.val_images }}</strong> validation crops</span>
+            <span><strong>{{ model_performance.recognizer.test_images }}</strong> test crops</span>
+          </div>
+        </section>
+
+        <aside class="metrics-note">
+          <strong>How to read these numbers</strong>
+          <p>
+            Higher is better. Detector and recognizer metrics measure separate
+            pipeline stages and do not represent a single end-to-end road-safety
+            accuracy. Results can vary with lighting, distance, blur and sign
+            visibility.
+          </p>
+        </aside>
+      </section>
+      {% else %}
+      <section class="about-hero section-shell">
+        <span class="eyebrow">About the project</span>
+        <h1>
+          Researching clearer traffic-sign awareness for
+          <em>Malaysian roads.</em>
+        </h1>
+        <div class="about-grid">
+          <p class="lead">
+            TSDR System is a final-year project that combines OpenCV image
+            enhancement, YOLO object detection and YOLO-based image
+            classification into one practical traffic sign detection and
+            recognition workflow.
+          </p>
+          <div>
+            <h2>What happens to an image?</h2>
+            <ol>
+              <li>
+                <strong>Enhance</strong
+                ><span
+                  >OpenCV applies CLAHE and/or gamma correction to improve sign
+                  visibility.</span
+                >
+              </li>
+              <li>
+                <strong>Locate</strong
+                ><span>A YOLO detector proposes traffic-sign regions.</span>
+              </li>
+              <li>
+                <strong>Guard</strong
+                ><span
+                  >Geometry and face checks reject likely false positives.</span
+                >
+              </li>
+              <li>
+                <strong>Recognise</strong
+                ><span
+                  >The YOLO classification model recognises the cropped signs
+                  and maps them to readable names.</span
+                >
+              </li>
+              <li>
+                <strong>Record</strong
+                ><span>Accepted observations are saved for review.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="model-note">
+          <span>Model status</span>
+          <p>
+            Detector: {{ detector_name }}<br />Recognizer: {{ recognizer_name }}
+          </p>
+        </div>
+      </section>
+      {% endif %}
+    </main>
+    <footer>
+      <a class="brand dark-brand" href="/"
+        ><img class="brand-logo" src="/logo-image" alt="" /><span
+          >TSDR System</span
+        ></a
+      >
+      <p>Malaysian Traffic Sign Detection & Recognition</p>
+      <div class="footer-right">
+        <p>Research prototype · Drive attentively</p>
+        <a class="footer-performance" href="/model-performance"
+          >Model performance →</a
+        >
+      </div>
+    </footer>
+    <div class="image-modal" id="imageModal" hidden>
+      <button class="image-modal-close" id="closeImageModal" type="button" aria-label="Close zoomed image">
+        ×
+      </button>
+      <img id="modalImage" alt="Zoomed traffic sign result" />
+      <p id="modalCaption" class="image-modal-caption"></p>
+    </div>
+    <script src="{{ url_for('static', filename='site.js') }}" defer></script>
+  </body>
+</html>
