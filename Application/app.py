@@ -5,7 +5,7 @@ from pathlib import Path
 # Allow the web application to use the shared development helpers while the
 # repository keeps application and model-development code in separate folders.
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-MODEL_DEVELOPMENT_DIR = PROJECT_ROOT / "Model Development"
+MODEL_DEVELOPMENT_DIR = PROJECT_ROOT / "Development"
 if str(MODEL_DEVELOPMENT_DIR) not in sys.path:
     sys.path.insert(0, str(MODEL_DEVELOPMENT_DIR))
 

@@ -7,7 +7,7 @@ and recognises each detected sign class.
 
 ```text
 Application/                 Flask application, templates, static assets, and local history
-Model Development/scripts/   Dataset-preparation, training, and evaluation scripts
+Development/scripts/         Dataset-preparation, training, and evaluation scripts
 Model Weights/               Trained runtime models
 Configuration/               Dependencies and class-label configuration
 ```
@@ -34,10 +34,10 @@ Then open `http://127.0.0.1:5000`.
 
 ## Model development
 
-All development scripts are in `Model Development/scripts/`. To retrain a model,
+All development scripts are in `Development/scripts/`. To retrain a model,
 first place or regenerate the required training dataset outside this submission,
 then provide its path explicitly. For example:
 
 ```powershell
-py "Model Development/scripts/train_yolo_detection.py" --data path\to\data.yaml
-py "Model Development/scripts/train_recognition.py" --data path\to\recognition_dataset
+py "Development/scripts/train_yolo_detection.py" --data path\to\data.yaml
+py "Development/scripts/train_recognition.py" --data path\to\recognition_dataset
